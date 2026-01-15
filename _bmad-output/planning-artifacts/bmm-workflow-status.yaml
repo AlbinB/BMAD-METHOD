@@ -1,0 +1,122 @@
+# Workflow Status Template
+
+# This tracks progress through BMM methodology Analysis, Planning, and Solutioning phases.
+# Implementation phase is tracked separately in sprint-status.yaml
+
+# STATUS DEFINITIONS:
+# ==================
+# Initial Status (before completion):
+#   - required: Must be completed to progress
+#   - optional: Can be completed but not required
+#   - recommended: Strongly suggested but not required
+#   - conditional: Required only if certain conditions met (e.g., if_has_ui)
+#   - included: User selected optional workflow
+#   - skipped: Optional workflow not selected
+#
+# Completion Status:
+#   - {file-path}: File created/found (e.g., "docs/product-brief.md")
+
+generated: "2026-01-07"
+project: "My-BMAD"
+project_type: "Visual workflow interface for BMad Method (n8n-style)"
+selected_track: "method"
+field_type: "greenfield"
+workflow_path: "method-greenfield.yaml"
+
+workflow_status:
+  # Phase 1: Analysis (Optional)
+  - phase: 1
+    name: "Analysis"
+    workflows:
+      - id: "brainstorm-project"
+        name: "Brainstorm"
+        status: "_bmad-output/analysis/brainstorming-session-2026-01-07.md"
+        agent: "analyst"
+        command: "/bmad:core:workflows:brainstorming"
+
+      - id: "research"
+        name: "Research"
+        status: "_bmad-output/planning-artifacts/research/technical-workflow-builder-tech-stack-research-2026-01-09.md"
+        agent: "analyst"
+        command: "/bmad:bmm:workflows:research"
+
+      - id: "product-brief"
+        name: "Product Brief"
+        status: "_bmad-output/planning-artifacts/product-brief-BMAD-Interface-2026-01-08.md"
+        agent: "analyst"
+        command: "/bmad:bmm:workflows:create-product-brief"
+
+  # Phase 2: Planning
+  - phase: 2
+    name: "Planning"
+    workflows:
+      - id: "prd"
+        name: "Product Requirements Document"
+        status: "_bmad-output/planning-artifacts/prd.md"
+        agent: "pm"
+        command: "/bmad:bmm:workflows:create-prd"
+
+      - id: "create-ux-design"
+        name: "UX Design"
+        status: "_bmad-output/planning-artifacts/ux-design-specification.md"
+        condition: "if_has_ui"
+        agent: "ux-designer"
+        command: "/bmad:bmm:workflows:create-ux-design"
+
+  # Phase 3: Solutioning
+  - phase: 3
+    name: "Solutioning"
+    workflows:
+      - id: "create-architecture"
+        name: "Architecture"
+        status: "_bmad-output/planning-artifacts/architecture.md"
+        agent: "architect"
+        command: "/bmad:bmm:workflows:create-architecture"
+
+      - id: "create-epics-and-stories"
+        name: "Epics & Stories"
+        status: "_bmad-output/planning-artifacts/epics.md"
+        agent: "pm"
+        command: "/bmad:bmm:workflows:create-epics-and-stories"
+
+      - id: "test-design"
+        name: "Test Design"
+        status: "skipped"
+        agent: "tea"
+        command: "/bmad:bmm:workflows:test-design"
+
+      - id: "implementation-readiness"
+        name: "Implementation Readiness Check"
+        status: "_bmad-output/planning-artifacts/implementation-readiness-report-2026-01-12.md"
+        agent: "architect"
+        command: "/bmad:bmm:workflows:check-implementation-readiness"
+
+  # Phase 4: Implementation
+  - phase: 4
+    name: "Implementation"
+    workflows:
+      - id: "sprint-planning"
+        name: "Sprint Planning"
+        status: "_bmad-output/implementation-artifacts/sprint-status.yaml"
+        agent: "sm"
+        command: "/bmad:bmm:workflows:sprint-planning"
+
+      - id: "dev-story"
+        name: "Story Development"
+        status: "in-progress"
+        agent: "dev"
+        command: "/bmad:bmm:workflows:dev-story"
+        note: "Paused - pivot recovery in progress (Epic 3)"
+
+      - id: "code-review"
+        name: "Code Review"
+        status: "required"
+        agent: "dev"
+        command: "/bmad:bmm:workflows:code-review"
+        note: "5 stories from Epic 1 awaiting review"
+
+      - id: "retrospective"
+        name: "Epic Retrospective"
+        status: "optional"
+        agent: "sm"
+        command: "/bmad:bmm:workflows:retrospective"
