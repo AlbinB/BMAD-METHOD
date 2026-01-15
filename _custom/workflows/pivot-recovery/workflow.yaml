@@ -1,0 +1,71 @@
+# Pivot Recovery - Phase Backtracking Workflow
+name: "pivot-recovery"
+description: "Recover from skipped methodology phases by assessing gaps, completing missing work, reconciling artifacts, and resuming implementation"
+author: "BMad Method"
+
+config_source: "{project-root}/_bmad/bmm/config.yaml"
+user_name: "{config_source}:user_name"
+communication_language: "{config_source}:communication_language"
+user_skill_level: "{config_source}:user_skill_level"
+document_output_language: "{config_source}:document_output_language"
+date: system-generated
+implementation_artifacts: "{config_source}:implementation_artifacts"
+planning_artifacts: "{config_source}:planning_artifacts"
+project_knowledge: "{config_source}:project_knowledge"
+output_folder: "{implementation_artifacts}"
+sprint_status: "{implementation_artifacts}/sprint-status.yaml || {output_folder}/sprint-status.yaml"
+
+# Smart input file references
+input_file_patterns:
+  prd:
+    description: "Product requirements for gap analysis"
+    whole: "{planning_artifacts}/*prd*.md"
+    sharded: "{planning_artifacts}/*prd*/*.md"
+    load_strategy: "FULL_LOAD"
+  epics:
+    description: "All epics to assess implementation state"
+    whole: "{planning_artifacts}/*epic*.md"
+    sharded: "{planning_artifacts}/*epic*/*.md"
+    load_strategy: "FULL_LOAD"
+  architecture:
+    description: "Architecture decisions that may need updating"
+    whole: "{planning_artifacts}/*architecture*.md"
+    sharded: "{planning_artifacts}/*architecture*/*.md"
+    load_strategy: "FULL_LOAD"
+  ux_design:
+    description: "UX design specification (often the skipped phase)"
+    whole: "{planning_artifacts}/*ux*.md"
+    sharded: "{planning_artifacts}/*ux*/*.md"
+    load_strategy: "FULL_LOAD"
+  product_brief:
+    description: "Product brief for context"
+    whole: "{planning_artifacts}/*brief*.md"
+    load_strategy: "FULL_LOAD"
+  sprint_status_file:
+    description: "Current sprint status"
+    whole: "{sprint_status}"
+    load_strategy: "FULL_LOAD"
+  story_files:
+    description: "Individual story files for implementation state"
+    sharded: "{implementation_artifacts}/*.md"
+    load_strategy: "INDEX_GUIDED"
+
+installed_path: "{project-root}/_custom/workflows/pivot-recovery"
+template: false
+instructions: "{installed_path}/instructions.md"
+checklist: "{installed_path}/checklist.md"
+gap_analysis_template: "{installed_path}/templates/gap-analysis-template.md"
+reconciliation_template: "{installed_path}/templates/reconciliation-report-template.md"
+recovery_status_template: "{installed_path}/templates/recovery-status-template.yaml"
+recovery_status_file: "{implementation_artifacts}/pivot-recovery-status.yaml"
+default_output_file: "{planning_artifacts}/pivot-recovery-report-{date}.md"
+
+standalone: true
+web_bundle: true
+
+# Trigger conditions - when this workflow should be considered
+trigger_conditions:
+  - "Discovered a skipped methodology phase"
+  - "UX/Architecture/Planning work incomplete before implementation"
+  - "Need to backtrack to complete earlier phase work"
+  - "Implementation blocked due to missing upstream artifacts"

@@ -1,0 +1,82 @@
+# Pivot Recovery Status Template
+# Copy this to: {implementation_artifacts}/pivot-recovery-status.yaml
+# Referenced by: sprint-status.yaml → active_recovery.status_file
+#
+# STATUS VALUES:
+#   Recovery: not-started, in-progress, complete
+#   Tasks: pending, in-progress, done, skipped
+
+recovery_id: PR-{{date}}
+project: {{project_name}}
+status: not-started
+triggered: {{date}}
+completed: null
+
+# What triggered this recovery
+trigger:
+  skipped_phase: "{{skipped_phase}}"
+  reason: "{{reason}}"
+  discovered_by: "{{discovery_trigger}}"
+  gaps_identified:
+    - "{{gap_1}}"
+    - "{{gap_2}}"
+    - "{{gap_3}}"
+
+# Main workflow state when paused
+main_workflow_state:
+  paused_at:
+    epic: {{current_epic}}
+    story: {{last_completed_story}}
+    status: done
+  blocked_stories:
+    {{epic_id}}:
+      - {{story_id_1}}
+      - {{story_id_2}}
+  total_blocked: {{count}}
+
+# Recovery tasks - the work to complete before resuming
+# Add tasks based on gap analysis
+recovery_tasks:
+  # Phase A: Complete Skipped Work
+  - id: PR-1
+    phase: "A - Complete Skipped Work"
+    task: "{{task_description}}"
+    description: "{{detailed_description}}"
+    status: pending
+    workflow: {{workflow_to_use}}
+    output: null
+
+  # Phase B: Reconcile Downstream Artifacts
+  - id: PR-2
+    phase: "B - Reconcile Artifacts"
+    task: "Review and update affected artifacts"
+    description: "Check architecture, epics, stories for needed updates"
+    status: pending
+    workflow: null
+    output: null
+
+  # Phase C: Validate and Resume
+  - id: PR-3
+    phase: "C - Validate and Resume"
+    task: "Update sprint-status.yaml and resume"
+    description: "Remove active_recovery, unblock stories"
+    status: pending
+    workflow: null
+    output: null
+
+# Artifacts that have been updated during recovery
+artifacts_updated: []
+
+# Resume plan - what happens when recovery completes
+resume_plan:
+  next_story: {{resume_story}}
+  next_workflow: dev-story
+  notes: ""
+
+# Progress tracking
+progress:
+  total_tasks: 3
+  completed: 0
+  in_progress: 0
+  pending: 3
+  percent_complete: 0
