@@ -163,6 +163,12 @@ The workflow guides you through:
   - Change story status from `ready-for-dev` to `blocked-recovery`
 
   <action>Confirm state files created</action>
+
+  <action>Update bmm-workflow-status.yaml note field to reflect paused state:</action>
+  - Locate the `dev-story` entry in workflow_status Phase 4
+  - Update the `note` field to: "Paused - pivot recovery in progress ({current_epic})"
+  - This provides high-level state visibility without requiring sprint-status.yaml lookup
+
   <note>Main workflow is now officially PAUSED</note>
 </step>
 
@@ -366,6 +372,11 @@ The workflow guides you through:
     - Skipped phase: Now complete
     - Artifacts updated: [list]
     - Next action: Resume [story-id]
+
+    <action>Update bmm-workflow-status.yaml note field to reflect resumed state:</action>
+    - Locate the `dev-story` entry in workflow_status Phase 4
+    - Update the `note` field to: "Active - {current_epic} in progress"
+    - This clears the paused state and shows current epic
 
     <action>Route to appropriate next workflow:</action>
     - If resuming development: /bmad:bmm:workflows:dev-story
