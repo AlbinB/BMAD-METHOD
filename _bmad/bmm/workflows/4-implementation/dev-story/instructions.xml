@@ -318,6 +318,16 @@
       <action>Add Change Log entry: "Addressed code review findings - {{resolved_count}} items resolved (Date: {{date}})"</action>
     </check>
 
+    <!-- Issues Encountered Documentation -->
+    <check if="unexpected issues or challenges occurred during this task">
+      <action>Add row to "Issues Encountered" section in story file:
+        - Issue: Description of the problem encountered
+        - Resolution: How it was resolved
+        - Category: Technical, Process, or Environment
+      </action>
+      <note>This data feeds retrospective insights for process improvement</note>
+    </check>
+
     <action>Save the story file</action>
     <action>Determine if more incomplete tasks remain</action>
     <action if="more tasks remain">
